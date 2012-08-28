@@ -5,7 +5,7 @@ author: malihu (http://manos.malihu.gr)
 plugin home: http://manos.malihu.gr/jquery-custom-content-scroller 
 */
 (function($){
-	var methods={
+  var methods={
 		init:function(options){
 			var defaults={ 
 				set_width:false, /*optional element width: boolean, pixels, percentage*/
@@ -200,7 +200,7 @@ plugin home: http://manos.malihu.gr/jquery-custom-content-scroller
 			var $this=$(this),
 				mCustomScrollBox=$this.children(".mCustomScrollBox"),
 				mCSB_container=mCustomScrollBox.children(".mCSB_container");
-			if(!$(document).data("mCS-is-touch-device")){
+      if(!$(document).data("mCS-is-touch-device")){
 				mCSB_container.removeClass("mCS_no_scrollbar");
 			}
 			var mCSB_scrollTools=mCustomScrollBox.children(".mCSB_scrollTools"),
@@ -419,7 +419,7 @@ plugin home: http://manos.malihu.gr/jquery-custom-content-scroller
 						});
 					}
 				}else{ /*continuous scrolling*/
-					if($this.data("horizontalScroll")){
+          if($this.data("horizontalScroll")){
 						mCSB_buttonRight.add(mCSB_buttonLeft).unbind("click mousedown mouseup mouseout",mCSB_buttonRight_stop,mCSB_buttonLeft_stop);
 						/*scroll right*/
 						var mCSB_buttonScrollRight,
@@ -429,9 +429,16 @@ plugin home: http://manos.malihu.gr/jquery-custom-content-scroller
 							e.preventDefault();
 							var draggerScrollTo=mCSB_draggerContainerW-mCSB_draggerW;
 							mCSB_buttonScrollRight=setInterval(function(){
-								var scrollToSpeed=Math.abs(mCSB_dragger.position().left-draggerScrollTo)*(100/$this.data("scrollButtons-scrollSpeed"));
-								mCSB_dragger.stop().animate({left:draggerScrollTo},scrollToSpeed,"linear");
-								$this.mCustomScrollbar("scroll");
+                mCSB_buttonRight.bind("mouseup", function(e){
+                  e.preventDefault();
+                  clearInterval(mCSB_buttonScrollRight);
+                });
+                mCSB_draggerContainerW=mCSB_draggerContainer.width(),
+                mCSB_draggerW=mCSB_dragger.width();
+							  draggerScrollTo=mCSB_draggerContainerW-mCSB_draggerW;
+                var scrollToSpeed=Math.abs(mCSB_dragger.position().left-draggerScrollTo)*(100/$this.data("scrollButtons-scrollSpeed"));
+                mCSB_dragger.stop().animate({left:draggerScrollTo},scrollToSpeed,"linear");
+                $this.mCustomScrollbar("scroll");
 							},20);
 						});
 						var mCSB_buttonRight_stop=function(e){
@@ -538,7 +545,7 @@ plugin home: http://manos.malihu.gr/jquery-custom-content-scroller
 			});
 		},
 		scroll:function(updated){
-			var $this=$(this),
+      var $this=$(this),
 				mCSB_dragger=$this.find(".mCSB_dragger"),
 				mCSB_container=$this.find(".mCSB_container"),
 				mCustomScrollBox=$this.find(".mCustomScrollBox");
